@@ -10,4 +10,4 @@ router.route("/product/new").post(createProduct);
 router.route("/product/:id").put(updateProducts).delete(deleteProduct).get(getProductDetails)
 
 
-module.exports = router
+module.exports = router;
