@@ -42,12 +42,12 @@ const userSchema = new mongoose.Schema({
     resetPasswordExpire:Date,
 });
 
-userSchema.pre('save',async function(next){
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
 
-  /*if(!this.isModefied("password")){
-      next();
-  }*/
-  this.password = await bcrypt.hash(this.password,10);
+  this.password = await bcrypt.hash(this.password, 10);
 });
 
 // JWT Token 
@@ -71,6 +71,7 @@ userSchema.methods.getResetPasswordToken = function () {
    const resetToken = crypto.randomBytes(20).toString("hex");
 
   //Hashing & adding resetPasswordToken to userSchema
+
   this.resetPasswordToken = crypto
     .createHash("sha256")
     .update(resetToken)
